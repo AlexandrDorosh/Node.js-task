@@ -1,5 +1,23 @@
+
 const fs = require('fs');
 const path = require('path');
+
+const textPathAlex = path.join(__dirname, "1800", "Alex.txt");
+const alexTo2000 = path.join(__dirname, '2000', 'Alex.txt');
+
+const textPathSergii = path.join(__dirname, "1800", "Sergii.txt");
+const sergiiTo2000 = path.join(__dirname, '2000', 'Sergii.txt');
+
+const textPathDiana = path.join(__dirname, "1800", "Diana.txt");
+
+const textPathDima = path.join(__dirname, "2000", "Dima.txt");
+
+const textPathOksana = path.join(__dirname, "2000", "Oksana.txt");
+const oksanaTo1800 = path.join(__dirname, '1800', 'Oksana.txt');
+
+const textPathOlesya = path.join(__dirname, "2000", "Olesya.txt");
+const olesyaTo1800 = path.join(__dirname, '1800', 'Olesya.txt');
+
 
 // dir 1
 const mkDirPath1800 = path.join(__dirname, '1800');
@@ -16,9 +34,8 @@ fs.mkdir(mkDirPath2000, { recursive: true }, err => {
 })
 
 // file Alex 1800
-const textPathAlex = path.join(__dirname, "1800", "Alex.js");
 
-fs.appendFile(textPathAlex, '', err => {
+fs.writeFile(textPathAlex, 'name: Alex, gender: male', err => {
     if(err){
         console.log(err);
         return;
@@ -27,9 +44,9 @@ fs.appendFile(textPathAlex, '', err => {
 })
 
 // file Diana 1800
-const textPathDiana = path.join(__dirname, "1800", "Diana.js");
+const diana = 'name: Diana, gender: female';
 
-fs.appendFile(textPathDiana, '', err => {
+fs.writeFile(textPathDiana, diana, err => {
     if(err){
         console.log(err);
         return;
@@ -38,9 +55,9 @@ fs.appendFile(textPathDiana, '', err => {
 })
 
 // file Sergii 1800
-const textPathSergii = path.join(__dirname, "1800", "Sergii.js");
+const sergii = 'name: Sergii, gender: male';
 
-fs.appendFile(textPathSergii, '', err => {
+fs.writeFile(textPathSergii, sergii, err => {
     if(err){
         console.log(err);
         return;
@@ -49,9 +66,9 @@ fs.appendFile(textPathSergii, '', err => {
 })
 
 // file Dima 2000
-const textPathDima = path.join(__dirname, "2000", "Dima.js");
+const dima = 'name: Dima, gender: male';
 
-fs.appendFile(textPathDima, '', err => {
+fs.writeFile(textPathDima, dima, err => {
     if(err){
         console.log(err);
         return;
@@ -60,9 +77,9 @@ fs.appendFile(textPathDima, '', err => {
 })
 
 // file Oksana 2000
-const textPathOksana = path.join(__dirname, "2000", "Oksana.js");
+const oksana = 'name: Oksana, gender: female';
 
-fs.appendFile(textPathOksana, '', err => {
+fs.writeFile(textPathOksana, oksana, err => {
     if(err){
         console.log(err);
         return;
@@ -71,9 +88,9 @@ fs.appendFile(textPathOksana, '', err => {
 })
 
 // file Olesya 2000
-const textPathOlesya = path.join(__dirname, "2000", "Olesya.js");
+const olesya = 'name: Olesya, gender: female';
 
-fs.appendFile(textPathOlesya, '', err => {
+fs.writeFile(textPathOlesya, olesya, err => {
     if(err){
         console.log(err);
         return;
@@ -81,41 +98,23 @@ fs.appendFile(textPathOlesya, '', err => {
     console.log("DONE");
 })
 
-
-
 // rename Alex
-
-const alex = path.join(__dirname, '1800', 'Alex.js');
-const alexTo2000 = path.join(__dirname, '2000', 'Alex.js');
-
-fs.rename(alex, alexTo2000, err => {
+fs.rename(textPathAlex, alexTo2000, err => {
     console.log(err);
 })
 
 // rename Sergii
-
-const sergii = path.join(__dirname, '1800', 'Sergii.js');
-const sergiiTo2000 = path.join(__dirname, '2000', 'Sergii.js');
-
-fs.rename(sergii, sergiiTo2000, err => {
+fs.rename(textPathSergii, sergiiTo2000, err => {
     console.log(err);
 })
 
 // rename Oksana
-
-const oksana = path.join(__dirname, '2000', 'Oksana.js');
-const oksanaTo1800 = path.join(__dirname, '1800', 'Oksana.js');
-
-fs.rename(oksana, oksanaTo1800, err => {
+fs.rename(textPathOksana, oksanaTo1800, err => {
     console.log(err);
 })
 
 // rename Olesya
-
-const olesya = path.join(__dirname, '2000', 'Olesya.js');
-const olesyaTo1800 = path.join(__dirname, '1800', 'Olesya.js');
-
-fs.rename(olesya, olesyaTo1800, err => {
+fs.rename(textPathOlesya, olesyaTo1800, err => {
     console.log(err);
 })
 
