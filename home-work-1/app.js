@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const path = require('path');
 
@@ -18,7 +17,6 @@ const oksanaTo1800 = path.join(__dirname, '1800', 'Oksana.txt');
 const textPathOlesya = path.join(__dirname, "2000", "Olesya.txt");
 const olesyaTo1800 = path.join(__dirname, '1800', 'Olesya.txt');
 
-
 // dir 1
 const mkDirPath1800 = path.join(__dirname, '1800');
 
@@ -34,7 +32,6 @@ fs.mkdir(mkDirPath2000, { recursive: true }, err => {
 })
 
 // file Alex 1800
-
 fs.writeFile(textPathAlex, 'name: Alex, gender: male', err => {
     if(err){
         console.log(err);
@@ -117,4 +114,3 @@ fs.rename(textPathOksana, oksanaTo1800, err => {
 fs.rename(textPathOlesya, olesyaTo1800, err => {
     console.log(err);
 })
-
