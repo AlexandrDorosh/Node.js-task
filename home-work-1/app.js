@@ -32,7 +32,9 @@ fs.mkdir(mkDirPath2000, { recursive: true }, err => {
 })
 
 // file Alex 1800
-fs.writeFile(textPathAlex, 'name: Alex, gender: male', err => {
+const alex = 'name: Alex, gender: male';
+
+fs.writeFile(textPathAlex, alex, err => {
     if(err){
         console.log(err);
         return;
