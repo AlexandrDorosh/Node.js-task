@@ -4,11 +4,14 @@ const path = require('path');
 
 const { PORT } = require('./config/variables');
 const users = require('./dataBase/users');
+const fs = require('fs');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
+
+const usersDb = path.join(__dirname, 'dataBase', 'users.js');
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', '.hbs');
@@ -47,38 +50,71 @@ app.get('/login', (req, res) => {
 app.post('/auth', (req, res) => {
     console.log(req.body);
     const { name, password } = req.body;
-    res.render('calc')
+    res.render('users')
 })
 
-app.post('/result', (req, res) => {
-    console.log(req.body);
-    const { firstNum, secondNum, select } = req.body;
-    const calc = (firstNum, secondNum, select) => {
-        const num1 = firstNum;
-        const num2 = secondNum;
-        const sumvol = select;
-        let result;
-        switch (sumvol){
-            case '+':
-                result = num1 + num2;
-                break;
-            case '-':
-                result = num1 - num2;
-                break;
-            case '*':
-                result = num1 * num2;
-                break;
-            case '/':
-                result = num1 / num2;
-                break;
-            default:
-                result = 'Виберіть операцію';
-        }
-        return result
-    }
-    res.json({
-        result: calc({firstNum, secondNum, select})});
+app.get('/registers', (req, res) => {
+    res.render('registers');
 })
+
+app.post('/reg', (req, res) => {
+    console.log(req.body);
+        const { name, age, password } = req.body;
+        fs.readFile(usersDb , (err, data) => {
+            if(err){
+                console.log(err);
+                return;
+            }
+            const dataStr = data.toString();
+            const dataObj = JSON.parse(dataStr);
+            dataObj.forEach(user => {
+                if(user.name === name){
+                    res.status(404).end('error');
+                    return
+                }
+                users.push({name, age, password});
+            });
+        });
+
+        fs.writeFile(usersDb, users, err => {
+            if(err){
+                console.log(err);
+                return;
+            }
+            JSON.stringify(users)
+        });
+        res.render('users', {users})
+})
+
+// app.post('/result', (req, res) => {
+//     console.log(req.body);
+//     const { firstNum, secondNum, select } = req.body;
+//     const calc = (firstNum, secondNum, select) => {
+//         const num1 = firstNum;
+//         const num2 = secondNum;
+//         const sumvol = select;
+//         let result;
+//         switch (sumvol){
+//             case '+':
+//                 result = num1 + num2;
+//                 break;
+//             case '-':
+//                 result = num1 - num2;
+//                 break;
+//             case '*':
+//                 result = num1 * num2;
+//                 break;
+//             case '/':
+//                 result = num1 / num2;
+//                 break;
+//             default:
+//                 result = 'Виберіть операцію';
+//         }
+//         return result
+//     }
+//     res.json({
+//         result: calc({firstNum, secondNum, select})});
+// })
 
 app.listen(PORT, () => {
     console.log('App listen', PORT);
