@@ -9,12 +9,15 @@
 </head>
 <body>
 
-<h1>Hello {{findUser}}</h1>
-
 {{#each users}}
-    <div>{{this.name}}</div>
-    <div>{{this.password}}</div>
+    <div>
+        <h2> Login: {{this.login}}</h2>
+        <h2>Password: {{this.password}}</h2>
+        <h2>Age: {{this.age}}</h2>
+        <h2>Email: {{this.email}}</h2>
+    </div>
     <hr>
 {{/each}}
+
 </body>
 </html>

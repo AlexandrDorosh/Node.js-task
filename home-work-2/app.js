@@ -3,7 +3,6 @@ const expressHbs = require('express-handlebars');
 const path = require('path');
 
 const { PORT } = require('./config/variables');
-const users = require('./dataBase/users.js');
 const fs = require('fs');
 
 const app = express();
@@ -11,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
-const usersDb = path.join(__dirname, 'dataBase', 'users.js');
+const usersDb = path.join(__dirname, 'dataBase', 'users.json');
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', '.hbs');
@@ -25,8 +24,15 @@ app.get('/', (req, res) => {
 })
 
 app.get('/users', (req, res) => {
-    res.render('users', {users});
-})
+    fs.readFile(usersDb, (err, data) => {
+        if (err) {
+            res.status(404).end('Not Found');
+            return;
+        }
+        const users = JSON.parse(data);
+        res.render('users', {users});
+    })
+});
 
 app.get('/users/:user_id', (req, res) => {
     const { user_id } = req.params;
@@ -42,6 +48,10 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
+app.get('/hello', (req, res) => {
+    res.render('hello');
+})
+
 app.post('/auth', (req, res) => {
     console.log(req.body);
     fs.readFile(usersDb, (err, data) => {
@@ -53,7 +63,9 @@ app.post('/auth', (req, res) => {
         const arr = JSON.parse(data);
         console.log(typeof(arr));
         const findUser = arr.find(user => user.login === login && user.password === password);
-        findUser ? res.render('users', {findUser}) : res.redirect('/registers')
+        findUser ?
+            res.render('hello', {findUser}) :
+            res.redirect('/registers');
     })
 })
 
@@ -63,31 +75,29 @@ app.get('/registers', (req, res) => {
 
 app.post('/reg', (req, res) => {
     console.log(req.body);
-        const { name, password } = req.body;
+        const { login } = req.body;
         fs.readFile(usersDb, (err, data) => {
             if(err){
-                console.log(err);
+                res.status(404).end('Not Found');
                 return;
             }
             const dataStr = data.toString();
-            const users = JSON.parse(dataStr);
-            users.forEach(user => {
-                if(user.name === name){
-                    res.status(404).end('error');
-                    return
-                }
-                users.push({name, password});
-            });
-        });
+            const arr = dataStr ? JSON.parse(data.toString()) : [];
 
-        const dataAr = JSON.stringify(users);
-        fs.writeFile(usersDb, dataAr, err => {
-            if(err){
-                console.log(err);
-                return;
+            const findRegUser = arr.find(user => user.login === login);
+            if(findRegUser){
+                return res.status(404).end("sorry you are have");
             }
+            arr.push(req.body);
+
+            fs.writeFile(usersDb, JSON.stringify(arr), err => {
+                if(err){
+                    res.status(404).end('Not Found');
+                    return;
+                }
+                res.redirect('/login');
+            })
         });
-        res.render('users', {dataAr})
 })
 
 // app.post('/result', (req, res) => {
