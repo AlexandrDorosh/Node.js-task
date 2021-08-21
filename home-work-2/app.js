@@ -50,10 +50,9 @@ app.post('/auth', (req, res) => {
             return;
         }
         const { login, password } = req.body;
-        const arr = JSON.stringify(data.toString());
-        const ar = JSON.parse(arr);
-        console.log(ar);
-        const findUser = ar.find(user => user.login === login && user.password === password);
+        const arr = JSON.parse(data);
+        console.log(typeof(arr));
+        const findUser = arr.find(user => user.login === login && user.password === password);
         findUser ? res.render('users', {findUser}) : res.redirect('/registers')
     })
 })
