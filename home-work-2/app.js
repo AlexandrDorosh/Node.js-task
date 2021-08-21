@@ -3,7 +3,7 @@ const expressHbs = require('express-handlebars');
 const path = require('path');
 
 const { PORT } = require('./config/variables');
-const users = require('./dataBase/users');
+const users = require('./dataBase/users.js');
 const fs = require('fs');
 
 const app = express();
@@ -39,18 +39,23 @@ app.get('/users/:user_id', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    // const { user_id } = req.params;
-    // const currentUser = users[user_id];
-    // console.log(currentUser);
-    // const { name, password } = req.body;
-    // users.find(name === currentUser.name && password === currentUser.password)
     res.render('login');
 })
 
 app.post('/auth', (req, res) => {
     console.log(req.body);
-    const { name, password } = req.body;
-    res.render('users')
+    fs.readFile(usersDb, (err, data) => {
+        if(err){
+            res.status(404).end('Not Found');
+            return;
+        }
+        const { login, password } = req.body;
+        const arr = JSON.stringify(data.toString());
+        const ar = JSON.parse(arr);
+        console.log(ar);
+        const findUser = ar.find(user => user.login === login && user.password === password);
+        findUser ? res.render('users', {findUser}) : res.redirect('/registers')
+    })
 })
 
 app.get('/registers', (req, res) => {
@@ -59,31 +64,31 @@ app.get('/registers', (req, res) => {
 
 app.post('/reg', (req, res) => {
     console.log(req.body);
-        const { name, age, password } = req.body;
-        fs.readFile(usersDb , (err, data) => {
+        const { name, password } = req.body;
+        fs.readFile(usersDb, (err, data) => {
             if(err){
                 console.log(err);
                 return;
             }
             const dataStr = data.toString();
-            const dataObj = JSON.parse(dataStr);
-            dataObj.forEach(user => {
+            const users = JSON.parse(dataStr);
+            users.forEach(user => {
                 if(user.name === name){
                     res.status(404).end('error');
                     return
                 }
-                users.push({name, age, password});
+                users.push({name, password});
             });
         });
 
-        fs.writeFile(usersDb, users, err => {
+        const dataAr = JSON.stringify(users);
+        fs.writeFile(usersDb, dataAr, err => {
             if(err){
                 console.log(err);
                 return;
             }
-            JSON.stringify(users)
         });
-        res.render('users', {users})
+        res.render('users', {dataAr})
 })
 
 // app.post('/result', (req, res) => {
