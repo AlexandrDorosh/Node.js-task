@@ -2,7 +2,6 @@ const express = require('express');
 const expressHbs = require('express-handlebars');
 const fs = require('fs');
 const path = require('path');
-
 const { PORT } = require('./config/variables');
 
 const app = express();
@@ -21,7 +20,7 @@ const usersDb = path.join(__dirname, 'dataBase', 'users.json');
 // app.get('/', (req, res) => {
 //   res.render('index');
 // })
-
+//
 // app.get('/users', (req, res) => {
 //     fs.readFile(usersDb, (err, data) => {
 //         if (err) {
