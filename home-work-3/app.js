@@ -12,27 +12,26 @@ app.use(express.urlencoded({extended: true}))
 
 const usersDb = path.join(__dirname, 'dataBase', 'users.json');
 
-app.use(express.static(path.join(__dirname, 'static')));
-app.set('view engine', '.hbs');
-app.engine('.hbs', expressHbs({
-  defaultLayout: false
-}))
-app.set('views', path.join(__dirname, 'static'));
+// app.set('view engine', '.hbs');
+// app.engine('.hbs', expressHbs({
+//   defaultLayout: false
+// }))
+// app.set('views', path.join(__dirname, 'static'));
 
-app.get('/', (req, res) => {
-  res.render('index');
-})
+// app.get('/', (req, res) => {
+//   res.render('index');
+// })
 
-app.get('/users', (req, res) => {
-    fs.readFile(usersDb, (err, data) => {
-        if (err) {
-            res.status(404).end('Not Found');
-            return;
-        }
-        const users = JSON.parse(data);
-        res.render('users', {users});
-    })
-});
+// app.get('/users', (req, res) => {
+//     fs.readFile(usersDb, (err, data) => {
+//         if (err) {
+//             res.status(404).end('Not Found');
+//             return;
+//         }
+//         const users = JSON.parse(data);
+//         res.render('users', {users});
+//     })
+// });
 
 app.get('/users/:user_id', (req, res) => {
     const { user_id } = req.params;
@@ -51,32 +50,32 @@ app.get('/users/:user_id', (req, res) => {
     })
 })
 
-app.get('/login', (req, res) => {
-    res.render('login');
-})
+// app.get('/login', (req, res) => {
+//     res.render('login');
+// })
+//
+// app.get('/hello', (req, res) => {
+//     res.render('hello');
+// })
 
-app.get('/hello', (req, res) => {
-    res.render('hello');
-})
+// app.post('/auth', (req, res) => {
+//     fs.readFile(usersDb, (err, data) => {
+//         if(err){
+//             res.status(404).end('Not Found');
+//             return;
+//         }
+//         const { login, password } = req.body;
+//         const arr = JSON.parse(data);
+//         const findUser = arr.find(user => user.login === login && user.password === password);
+//         findUser ?
+//             res.render('hello', {findUser}) :
+//             res.redirect('/registration');
+//     })
+// })
 
-app.post('/auth', (req, res) => {
-    fs.readFile(usersDb, (err, data) => {
-        if(err){
-            res.status(404).end('Not Found');
-            return;
-        }
-        const { login, password } = req.body;
-        const arr = JSON.parse(data);
-        const findUser = arr.find(user => user.login === login && user.password === password);
-        findUser ?
-            res.render('hello', {findUser}) :
-            res.redirect('/registration');
-    })
-})
-
-app.get('/registration', (req, res) => {
-    res.render('registration');
-})
+// app.get('/registration', (req, res) => {
+//     res.render('registration');
+// })
 
 app.post('/reg', (req, res) => {
     console.log(req.body);
