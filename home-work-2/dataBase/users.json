@@ -1,1 +1,32 @@
-[{"login":"Dimas","password":"1111","age":"22","email":"dimadima@gmail.com"},{"login":"Olga","password":"1111","age":"21","email":"olga21@gmail.com"},{"login":"Maria","password":"1111","age":"19","email":"mm192002@gmail.com"},{"login":"Alex","password":"1111","age":"23","email":"alexandro@gmail.com"},{"login":"dsa","password":"dsa"},{"login":"Alexdsa","password":"111121"},{"login":"sfd","password":"111121"},{"login":"Diman","password":"3333"},{"login":"Olesya","password":"1234"},{"login":"Oksana","password":"Oksana1996"},{"login":"Alexa","password":"11111"},{"login":"dd","password":"dd"},{"login":"ss","password":"ss"},{"login":"Dima","password":"dima","age":"24","email":"dimadsa"},{"login":"qq","password":"qq","age":"33","email":"qq"},{"login":"ww","password":"ww","age":"4","email":"ww"}]
+[
+  {
+    "login": "Dimas",
+    "password": "1111",
+    "age": "22",
+    "email": "dimadima@gmail.com"
+  },
+  {
+    "login": "Olga",
+    "password": "1111",
+    "age": "21",
+    "email": "olga21@gmail.com"
+  },
+  {
+    "login": "Maria",
+    "password": "1111",
+    "age": "19",
+    "email": "mm192002@gmail.com"
+  },
+  {
+    "login": "Alex",
+    "password": "1111",
+    "age": "23",
+    "email": "alexandro@gmail.com"
+  },
+  {
+    "login": "Dima",
+    "password": "dima",
+    "age": "24",
+    "email": "dimadsa"
+  }
+]
