@@ -9,6 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
+const userRouter = require('./routes/user.router');
+
+app.use('/users', userRouter);
+
 const usersDb = path.join(__dirname, 'dataBase', 'users.json');
 
 // app.set('view engine', '.hbs');
