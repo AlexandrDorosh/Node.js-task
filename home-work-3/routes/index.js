@@ -5,4 +5,4 @@ module.exports = {
     registrationRouter: require('./registration.router'),
     loginRouter: require('./login.router'),
     helloRouter: require('./hello.router')
-}
+};

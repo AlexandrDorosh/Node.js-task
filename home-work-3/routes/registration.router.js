@@ -4,6 +4,4 @@ const { registrationController } = require('../controllers');
 
 router.get('/', registrationController.showRegistration);
 
-
-
 module.exports = router;
