@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const usersDb = path.join(__dirname, 'dataBase', 'users.json');
+const usersDb = path.join(process.cwd(), 'dataBase', 'users.json');
 
 module.exports = {
     createUser: (req, res) => {
@@ -25,7 +25,7 @@ module.exports = {
                     res.status(404).end('Not Found');
                     return;
                 }
-                res.redirect('/login');
+                return res.redirect('/auth');
             });
         });
     },

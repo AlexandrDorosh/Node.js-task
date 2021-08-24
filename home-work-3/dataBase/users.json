@@ -1,0 +1,74 @@
+[
+  {
+    "login": "Dimas",
+    "password": "1111",
+    "age": "22",
+    "email": "dimadima@gmail.com"
+  },
+  {
+    "login": "Olga",
+    "password": "1111",
+    "age": "21",
+    "email": "olga21@gmail.com"
+  },
+  {
+    "login": "Maria",
+    "password": "1111",
+    "age": "19",
+    "email": "mm192002@gmail.com"
+  },
+  {
+    "login": "Alex",
+    "password": "1111",
+    "age": "23",
+    "email": "alexandro@gmail.com"
+  },
+  {
+    "login": "Dima",
+    "password": "dima",
+    "age": "24",
+    "email": "dimadsa"
+  },
+  {
+    "login": "Lina",
+    "password": "Kostenko",
+    "age": "56",
+    "email": "linalina56@gmail.com"
+  },
+  {
+    "login": "dsa",
+    "password": "dsa",
+    "age": "33",
+    "email": "dsa"
+  },
+  {
+    "login": "dasd",
+    "password": "asdas",
+    "age": "",
+    "email": ""
+  },
+  {
+    "login": "Alexasd",
+    "password": "",
+    "age": "",
+    "email": ""
+  },
+  {
+    "login": "Alexdsa",
+    "password": "",
+    "age": "",
+    "email": ""
+  },
+  {
+    "login": "ads",
+    "password": "",
+    "age": "",
+    "email": ""
+  },
+  {
+    "login": "dsadas",
+    "password": "",
+    "age": "",
+    "email": ""
+  }
+]

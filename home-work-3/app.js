@@ -20,7 +20,6 @@ const {
     userRouter,
     menuRouter,
     registrationRouter,
-    loginRouter,
     helloRouter
 } = require('./routes');
 
@@ -30,7 +29,6 @@ app.use('/', menuRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/registration', registrationRouter);
-app.use('/login', loginRouter);
 app.use('/hello', helloRouter);
 
 app.listen(PORT, () => {

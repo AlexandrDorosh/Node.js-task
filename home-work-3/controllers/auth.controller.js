@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const usersDb = path.join(__dirname, 'dataBase', 'users.json');
+const usersDb = path.join(process.cwd(), 'dataBase', 'users.json');
 
 module.exports = {
     loginUser: (req, res) => {
@@ -14,9 +14,13 @@ module.exports = {
             const arr = JSON.parse(data);
             const findUser = arr.find((user) => user.login === login && user.password === password);
             if (findUser) {
-                res.render('hello', { findUser });
+                return res.render('hello', { findUser });
             }
-            res.redirect('/registration');
+            return res.redirect('/registration');
         });
+    },
+
+    registrationUser: (req, res) => {
+        res.render('auth');
     }
 };
