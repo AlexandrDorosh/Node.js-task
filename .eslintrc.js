@@ -13,6 +13,7 @@ module.exports = {
     ],
     plugins: [],
     rules: {
+        'no-shadow': 'off',
         'array-bracket-newline': [
             'error',
             { minItems: 2 },

@@ -1,17 +1,24 @@
 const fs = require('fs');
-const path = require('path');
+const util = require('util');
 
-const usersDb = path.join(process.cwd(), 'dataBase', 'users.json');
+const readUserFile = util.promisify(fs.readFile);
+const writeUserFile = util.promisify(fs.writeFile);
 
 module.exports = {
-    authUser: () => {
-        let users;
-        fs.readFile(usersDb, (err, data) => {
-            if (err) {
-                return 'Not Found';
-            }
-            users = JSON.parse(data);
-        });
-        return users;
+    authUserRead: async (usersDb) => {
+        try {
+            const data = await readUserFile(usersDb);
+            return JSON.parse(data.toString());
+        } catch (e) {
+            return e;
+        }
+    },
+
+    authUserWrite: async (usersDb, users) => {
+        try {
+            await writeUserFile(usersDb, JSON.stringify(users));
+        } catch (e) {
+            return e;
+        }
     }
 };
