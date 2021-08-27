@@ -1,17 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { PORT } = require('./config/variables');
+const { variables, messages, statusCodes } = require('./config');
+
+const { PORT, URL } = variables;
 
 const app = express();
-mongoose.connect('mongodb://localhost:27017/apr-2021');
+mongoose.connect(URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { NOT_FOUND, INTERNAL_SERVER_ERROR } = require('./config/statusCodes');
+const { NOT_FOUND, INTERNAL_SERVER_ERROR } = statusCodes;
 
-const { NOT_FOUND_MESS } = require('./config/messages');
+const { NOT_FOUND_MESS } = messages;
 
 const {
     userRouter,
@@ -40,5 +42,5 @@ function _mainErrorHandler(err, req, res, next) {
 }
 
 app.listen(PORT, () => {
-    // console.log('App listen', PORT);
+    console.log('App listen', PORT);
 });

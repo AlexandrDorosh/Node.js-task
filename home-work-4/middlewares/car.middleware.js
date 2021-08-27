@@ -1,8 +1,10 @@
 const Car = require('../dataBase/Car');
 const ErrorHandler = require('../errors/ErrorHandler');
 
-const { NOT_FOUND } = require('../config/statusCodes');
-const { CAR_NOT_FOUND } = require('../config/messages');
+const { messages, statusCodes } = require('../config');
+
+const { NOT_FOUND } = statusCodes;
+const { CAR_NOT_FOUND } = messages;
 
 module.exports = {
     isCarPresent: async (req, res, next) => {

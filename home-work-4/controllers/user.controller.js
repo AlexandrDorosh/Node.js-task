@@ -1,10 +1,11 @@
 const { userService } = require('../services');
+const { statusCodes, messages } = require('../config');
 
 const {
     CREATED, SUCCESS, ACCEPTED, DELETED
-} = require('../config/statusCodes');
+} = statusCodes;
 
-const { DELETED_MESS, UPDATED_MESS } = require('../config/messages');
+const { DELETED_MESS, UPDATED_MESS } = messages;
 
 const {
     getAllUsers, createUser, deleteUser, updateUser

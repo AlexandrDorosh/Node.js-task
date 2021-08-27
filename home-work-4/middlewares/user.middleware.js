@@ -1,8 +1,10 @@
 const User = require('../dataBase/User');
 const ErrorHandler = require('../errors/ErrorHandler');
 
-const { NOT_FOUND } = require('../config/statusCodes');
-const { USER_NOT_FOUND, EMAIL_EXISTS } = require('../config/messages');
+const { messages, statusCodes } = require('../config');
+
+const { NOT_FOUND } = statusCodes;
+const { USER_NOT_FOUND, EMAIL_EXISTS } = messages;
 
 module.exports = {
     isUserPresent: async (req, res, next) => {
