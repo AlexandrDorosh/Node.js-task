@@ -1,8 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const expressHbs = require('express-handlebars');
-const path = require('path');
 const { PORT } = require('./config/variables');
 
 const app = express();
@@ -11,28 +9,15 @@ mongoose.connect('mongodb://localhost:27017/apr-2021');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'static')));
-app.set('view engine', '.hbs');
-app.engine('.hbs', expressHbs({
-    defaultLayout: false
-}));
-app.set('views', path.join(__dirname, 'static'));
-
 const {
-    authRouter,
     userRouter,
-    menuRouter,
-    registrationRouter,
-    helloRouter
+    carRouter
 } = require('./routes');
 
 app.get('/ping', (req, res) => res.json('Pong'));
 
-app.use('/', menuRouter);
-app.use('/auth', authRouter);
 app.use('/users', userRouter);
-app.use('/registration', registrationRouter);
-app.use('/hello', helloRouter);
+app.use('/cars', carRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

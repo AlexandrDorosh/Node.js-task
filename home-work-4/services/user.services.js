@@ -1,24 +1,11 @@
-const fs = require('fs');
-const util = require('util');
-
-const readUserFile = util.promisify(fs.readFile);
-const writeUserFile = util.promisify(fs.writeFile);
+const User = require('../dataBase/User');
 
 module.exports = {
-    authUserRead: async (usersDb) => {
-        try {
-            const data = await readUserFile(usersDb);
-            return JSON.parse(data.toString());
-        } catch (e) {
-            return e;
-        }
-    },
+    createUser: (user) => User.create(user),
 
-    authUserWrite: async (usersDb, users) => {
-        try {
-            await writeUserFile(usersDb, JSON.stringify(users));
-        } catch (e) {
-            return e;
-        }
-    }
+    getAllUsers: () => User.find(),
+
+    deleteUser: (user_id) => User.deleteOne({ _id: user_id }),
+
+    updateUser: (user_id, body) => User.findByIdAndUpdate({ _id: user_id }, body)
 };
