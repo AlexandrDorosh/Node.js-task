@@ -1,16 +1,20 @@
 const User = require('../dataBase/User');
 const ErrorHandler = require('../errors/ErrorHandler');
 
+const { NOT_FOUND } = require('../config/statusCodes');
+const { USER_NOT_FOUND, EMAIL_EXISTS } = require('../config/messages');
+
 module.exports = {
     isUserPresent: async (req, res, next) => {
         try {
             const { user_id } = req.params;
             const user = await User.findById(user_id);
+
             if (!user) {
-                throw new ErrorHandler(418, 'user not found');
+                throw new ErrorHandler(NOT_FOUND, USER_NOT_FOUND);
             }
+
             req.user = user;
-            req.testParam = 'Hello';
             next();
         } catch (e) {
             next(e);
@@ -23,8 +27,9 @@ module.exports = {
             const userByEmail = await User.findOne({ email });
 
             if (userByEmail) {
-                throw new ErrorHandler(409, `Email ${email} is already exists`);
+                throw new ErrorHandler(NOT_FOUND, EMAIL_EXISTS);
             }
+
             next();
         } catch (e) {
             next(e);

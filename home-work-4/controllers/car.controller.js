@@ -1,4 +1,9 @@
 const { carService } = require('../services');
+const {
+    CREATED, SUCCESS, ACCEPTED, DELETED
+} = require('../config/statusCodes');
+
+const { DELETED_MESS, UPDATED_MESS } = require('../config/messages');
 
 const {
     getAllCars, createCar, updateCar, deleteCar
@@ -8,7 +13,7 @@ module.exports = {
     createCar: async (req, res, next) => {
         try {
             const createdCar = await createCar(req.body);
-            res.json(createdCar);
+            res.status(CREATED).json(createdCar);
         } catch (e) {
             next(e);
         }
@@ -17,7 +22,7 @@ module.exports = {
     getAllCars: async (req, res, next) => {
         try {
             const cars = await getAllCars();
-            res.json(cars);
+            res.status(SUCCESS).json(cars);
         } catch (e) {
             next(e);
         }
@@ -25,7 +30,7 @@ module.exports = {
 
     getSingleCar: (req, res, next) => {
         try {
-            res.json(req.car);
+            res.status(SUCCESS).json(req.car);
         } catch (e) {
             next(e);
         }
@@ -35,7 +40,7 @@ module.exports = {
         try {
             const { car_id } = req.params;
             await deleteCar(car_id);
-            res.json(`Car with id: ${car_id} was deleted`);
+            res.status(DELETED).json(DELETED_MESS);
         } catch (e) {
             next(e);
         }
@@ -45,7 +50,7 @@ module.exports = {
         try {
             const { car_id } = req.params;
             await updateCar(car_id, req.body);
-            res.json(`Car with id: ${car_id} was updated`);
+            res.status(ACCEPTED).json(UPDATED_MESS);
         } catch (e) {
             next(e);
         }

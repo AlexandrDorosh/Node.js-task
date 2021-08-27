@@ -1,6 +1,12 @@
 const { userService } = require('../services');
 
 const {
+    CREATED, SUCCESS, ACCEPTED, DELETED
+} = require('../config/statusCodes');
+
+const { DELETED_MESS, UPDATED_MESS } = require('../config/messages');
+
+const {
     getAllUsers, createUser, deleteUser, updateUser
 } = userService;
 
@@ -8,7 +14,7 @@ module.exports = {
     createUser: async (req, res, next) => {
         try {
             const createdUser = await createUser(req.body);
-            res.json(createdUser);
+            res.status(CREATED).json(createdUser);
         } catch (e) {
             next(e);
         }
@@ -17,7 +23,7 @@ module.exports = {
     getAllUsers: async (req, res, next) => {
         try {
             const users = await getAllUsers();
-            res.json(users);
+            res.status(SUCCESS).json(users);
         } catch (e) {
             next(e);
         }
@@ -25,10 +31,7 @@ module.exports = {
 
     getSingleUser: (req, res, next) => {
         try {
-            // const { user, testParam } = req;
-            // console.log(user);
-            // console.log(testParam);
-            res.json(req.user);
+            res.status(SUCCESS).json(req.user);
         } catch (e) {
             next(e);
         }
@@ -38,7 +41,7 @@ module.exports = {
         try {
             const { user_id } = req.params;
             await deleteUser(user_id);
-            res.json(`User with id: ${user_id} was deleted`);
+            res.status(DELETED).json(DELETED_MESS);
         } catch (e) {
             next(e);
         }
@@ -48,7 +51,7 @@ module.exports = {
         try {
             const { user_id } = req.params;
             await updateUser(user_id, req.body);
-            res.json(`User with id: ${user_id} was updated`);
+            res.status(ACCEPTED).json(UPDATED_MESS);
         } catch (e) {
             next(e);
         }
