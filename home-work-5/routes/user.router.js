@@ -14,6 +14,6 @@ router.get('/:user_id', isUserPresent, userController.getSingleUser);
 
 router.delete('/:user_id', isUserPresent, userController.deleteUser);
 
-router.put('/:user_id', validateUserBodyUpdate, isUserPresent, userController.updateUser);
+router.put('/:user_id', validateUserBodyUpdate, isUserPresent, checkUniqueEmail, userController.updateUser);
 
 module.exports = router;
