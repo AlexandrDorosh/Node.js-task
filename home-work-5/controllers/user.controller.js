@@ -12,8 +12,10 @@ const {
     getAllUsers, deleteUser, updateUser
 } = userService;
 
-const { passwordService } = require('../service');
-const { userNormalizator } = require('../utils/user.util');
+const { passwordService } = require('../services');
+const { userUtil } = require('../utils');
+
+const { userNormalizator } = userUtil;
 
 module.exports = {
     createUser: async (req, res, next) => {

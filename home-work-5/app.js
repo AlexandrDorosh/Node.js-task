@@ -17,11 +17,13 @@ const { NOT_FOUND_MESS } = messages;
 
 const {
     userRouter,
-    carRouter
+    carRouter,
+    authRouter
 } = require('./routes');
 
 app.get('/ping', (req, res) => res.json('Pong'));
 
+app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/cars', carRouter);
 app.use('*', _notFoundError);

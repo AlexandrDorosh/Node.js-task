@@ -1,6 +1,10 @@
 const { carService } = require('../services');
 const { statusCodes, messages } = require('../config');
 
+const { carUtil } = require('../utils');
+
+const { carNormalizator } = carUtil;
+
 const {
     CREATED, SUCCESS, ACCEPTED, DELETED
 } = statusCodes;
@@ -15,7 +19,8 @@ module.exports = {
     createCar: async (req, res, next) => {
         try {
             const createdCar = await createCar(req.body);
-            res.status(CREATED).json(createdCar);
+            const carToReturn = carNormalizator(createdCar);
+            res.status(CREATED).json(carToReturn);
         } catch (e) {
             next(e);
         }
@@ -24,7 +29,8 @@ module.exports = {
     getAllCars: async (req, res, next) => {
         try {
             const cars = await getAllCars();
-            res.status(SUCCESS).json(cars);
+            const carToReturn = cars.map((car) => carNormalizator(car));
+            res.status(SUCCESS).json(carToReturn);
         } catch (e) {
             next(e);
         }
@@ -32,7 +38,8 @@ module.exports = {
 
     getSingleCar: (req, res, next) => {
         try {
-            res.status(SUCCESS).json(req.car);
+            const carToReturn = carNormalizator(req.car);
+            res.status(SUCCESS).json(carToReturn);
         } catch (e) {
             next(e);
         }
