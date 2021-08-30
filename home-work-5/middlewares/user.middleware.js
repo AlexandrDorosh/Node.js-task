@@ -6,9 +6,8 @@ const { messages, statusCodes } = require('../config');
 const { NOT_FOUND } = statusCodes;
 const { USER_NOT_FOUND, EMAIL_EXISTS } = messages;
 const { userValidator } = require('../validators');
-const { updateUser } = require('../validators/user.validator');
 
-const { createUserValidator } = userValidator;
+const { createUserValidator, updateUser } = userValidator;
 
 module.exports = {
     isUserPresent: async (req, res, next) => {
