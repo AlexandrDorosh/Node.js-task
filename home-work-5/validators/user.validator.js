@@ -28,7 +28,7 @@ const createUserValidator = Joi.object({
 const updateUser = Joi.object({
     name: Joi.string().alphanum().min(2).max(30)
         .trim(),
-    email: Joi.string().regex(EMAIL_REGEXP).trim().required(),
+    email: Joi.string().regex(EMAIL_REGEXP).trim(),
 });
 
 module.exports = {
