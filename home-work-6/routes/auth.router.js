@@ -5,7 +5,8 @@ const { authMiddleware } = require('../middlewares');
 const { getAuthByDinamicParam, validateUserBody } = authMiddleware;
 
 const { authUser } = require('../controllers/auth.controller');
+const { EMAIL } = require('../config/constants');
 
-router.post('/', getAuthByDinamicParam('email', 'params'), validateUserBody, authUser);
+router.post('/', validateUserBody, getAuthByDinamicParam(EMAIL), authUser);
 
 module.exports = router;

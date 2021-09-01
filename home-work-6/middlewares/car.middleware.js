@@ -62,13 +62,13 @@ module.exports = {
         try {
             const value = req[searchIn][paramName];
 
-            const user = await Car.findOne({ [dbField]: value });
+            const car = await Car.findOne({ [dbField]: value });
 
-            if (!user) {
+            if (!car) {
                 throw new ErrorHandler(NOT_FOUND, CAR_NOT_FOUND);
             }
 
-            req.user = user;
+            req.car = car;
             next();
         } catch (e) {
             next(e);

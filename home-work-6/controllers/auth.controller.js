@@ -5,10 +5,9 @@ module.exports = {
         try {
             const { user, body } = req;
 
-            await passwordService.compare(user.password, body.password);
+            await passwordService.compare(body.password, user.password);
 
             res.json('Hello');
-            next();
         } catch (e) {
             next(e);
         }

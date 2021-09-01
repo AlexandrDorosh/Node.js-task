@@ -12,6 +12,22 @@ const { FORBIDDEN_MESS } = require('../config/messages');
 const { createUserValidator, updateUser } = userValidator;
 
 module.exports = {
+    isUserPresent: async (req, res, next) => {
+        try {
+            const { user_id } = req.params;
+            const user = await User.findById(user_id);
+
+            if (!user) {
+                throw new ErrorHandler(NOT_FOUND, USER_NOT_FOUND);
+            }
+
+            req.user = user;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     checkUniqueEmail: async (req, res, next) => {
         try {
             const { email } = req.body;
