@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const { variables, messages, statusCodes } = require('./config');
 
 const { PORT, URL } = variables;

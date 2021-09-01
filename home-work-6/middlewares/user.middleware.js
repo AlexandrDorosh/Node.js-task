@@ -1,31 +1,17 @@
-const User = require('../dataBase/User');
-const ErrorHandler = require('../errors/ErrorHandler');
+const { User } = require('../dataBase');
+const { ErrorHandler } = require('../errors');
 
 const { messages, statusCodes } = require('../config');
 
 const { NOT_FOUND } = statusCodes;
 const { USER_NOT_FOUND, EMAIL_EXISTS } = messages;
 const { userValidator } = require('../validators');
+const { FORBIDDEN } = require('../config/statusCodes');
+const { FORBIDDEN_MESS } = require('../config/messages');
 
 const { createUserValidator, updateUser } = userValidator;
 
 module.exports = {
-    isUserPresent: async (req, res, next) => {
-        try {
-            const { user_id } = req.params;
-            const user = await User.findById(user_id);
-
-            if (!user) {
-                throw new ErrorHandler(NOT_FOUND, USER_NOT_FOUND);
-            }
-
-            req.user = user;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     checkUniqueEmail: async (req, res, next) => {
         try {
             const { email } = req.body;
@@ -63,6 +49,40 @@ module.exports = {
                 throw new ErrorHandler(NOT_FOUND, error.details[0].message);
             }
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkUserRoleMiddleware: (rolesArr = []) => (req, res, next) => {
+        try {
+            const { role } = req.user;
+
+            if (!role.length) {
+                return next();
+            }
+
+            if (!rolesArr.includes(role)) {
+                throw new ErrorHandler(FORBIDDEN, FORBIDDEN_MESS);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    getUserByDinamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
+        try {
+            const value = req[searchIn][paramName];
+
+            const user = await User.findOne({ [dbField]: value });
+
+            if (!user) {
+                throw new ErrorHandler(NOT_FOUND, USER_NOT_FOUND);
+            }
+
+            req.user = user;
             next();
         } catch (e) {
             next(e);

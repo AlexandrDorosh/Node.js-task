@@ -6,5 +6,6 @@ module.exports = {
     USER_NOT_FOUND: 'User not found',
     CAR_NOT_FOUND: 'Car not found',
     EMAIL_EXISTS: 'Email is already exists',
-    EMAIL_OR_PASS_IS_WRONG: 'email or password is wrong'
+    EMAIL_OR_PASS_IS_WRONG: 'email or password is wrong',
+    FORBIDDEN_MESS: 'Forbidden'
 };

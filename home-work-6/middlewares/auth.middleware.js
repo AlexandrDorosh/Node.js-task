@@ -1,18 +1,19 @@
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 
 const { messages, statusCodes } = require('../config');
 
 const { NOT_FOUND } = statusCodes;
 const { EMAIL_OR_PASS_IS_WRONG } = messages;
 
-const { findUser } = require('../services/auth.service');
 const { authValidator } = require('../validators');
+const { User } = require('../dataBase');
 
 module.exports = {
-    isUserPresent: async (req, res, next) => {
+    getAuthByDinamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
         try {
-            const { email } = req.params;
-            const user = await findUser(email);
+            const value = req[searchIn][paramName];
+
+            const user = await User.findOne({ [dbField]: value });
 
             if (!user) {
                 throw new ErrorHandler(NOT_FOUND, EMAIL_OR_PASS_IS_WRONG);

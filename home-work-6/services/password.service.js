@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 const { BAD_REQUEST } = require('../config/statusCodes');
 const { EMAIL_OR_PASS_IS_WRONG } = require('../config/messages');
 

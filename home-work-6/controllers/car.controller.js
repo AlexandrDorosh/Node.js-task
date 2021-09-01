@@ -1,10 +1,6 @@
 const { carService } = require('../services');
 const { statusCodes, messages } = require('../config');
 
-const { carUtil } = require('../utils');
-
-const { carNormalizator } = carUtil;
-
 const {
     CREATED, SUCCESS, ACCEPTED, DELETED
 } = statusCodes;
@@ -14,6 +10,10 @@ const { DELETED_MESS, UPDATED_MESS } = messages;
 const {
     getAllCars, createCar, updateCar, deleteCar
 } = carService;
+
+const { carUtil } = require('../utils');
+
+const { carNormalizator } = carUtil;
 
 module.exports = {
     createCar: async (req, res, next) => {

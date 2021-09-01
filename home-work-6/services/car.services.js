@@ -1,4 +1,4 @@
-const Car = require('../dataBase/Car');
+const { Car } = require('../dataBase');
 
 module.exports = {
     createCar: (car) => Car.create(car),

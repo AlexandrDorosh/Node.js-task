@@ -1,6 +1,6 @@
 const { userService } = require('../services');
 const { statusCodes, messages } = require('../config');
-const User = require('../dataBase/User');
+const { User } = require('../dataBase');
 
 const {
     CREATED, SUCCESS, ACCEPTED, DELETED

@@ -1,29 +1,17 @@
-const Car = require('../dataBase/Car');
-const ErrorHandler = require('../errors/ErrorHandler');
+const { Car } = require('../dataBase');
+const { ErrorHandler } = require('../errors');
 
 const { messages, statusCodes } = require('../config');
 const { carValidator } = require('../validators');
+const { FORBIDDEN } = require('../config/statusCodes');
+const { FORBIDDEN_MESS } = require('../config/messages');
+
 const { createCarValidator, updateCar } = carValidator;
 
 const { NOT_FOUND } = statusCodes;
 const { CAR_NOT_FOUND } = messages;
 
 module.exports = {
-    isCarPresent: async (req, res, next) => {
-        try {
-            const { car_id } = req.params;
-            const car = await Car.findById(car_id);
-
-            if (!car) {
-                throw new ErrorHandler(NOT_FOUND, CAR_NOT_FOUND);
-            }
-
-            req.car = car;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
 
     validateCarBodyCreate: (req, res, next) => {
         try {
@@ -47,6 +35,40 @@ module.exports = {
                 throw new ErrorHandler(NOT_FOUND, error.details[0].message);
             }
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkCarRoleMiddleware: (rolesArr = []) => (req, res, next) => {
+        try {
+            const { role } = req.user;
+
+            if (!role.length) {
+                return next();
+            }
+
+            if (!rolesArr.includes(role)) {
+                throw new ErrorHandler(FORBIDDEN, FORBIDDEN_MESS);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    getCarByDinamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
+        try {
+            const value = req[searchIn][paramName];
+
+            const user = await Car.findOne({ [dbField]: value });
+
+            if (!user) {
+                throw new ErrorHandler(NOT_FOUND, CAR_NOT_FOUND);
+            }
+
+            req.user = user;
             next();
         } catch (e) {
             next(e);

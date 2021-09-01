@@ -17,9 +17,8 @@ const createCarValidator = Joi.object({
 });
 
 const updateCar = Joi.object({
-    engine: Joi.string().min(2).max(5).trim()
-        .required(),
-    machineNumber: Joi.string().regex(MACHINE_NUMBER).trim().required(),
+    engine: Joi.string().min(2).max(5).trim(),
+    machineNumber: Joi.string().regex(MACHINE_NUMBER).trim(),
     color: Joi.string().min(2).max(30),
 });
 
