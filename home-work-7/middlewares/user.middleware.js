@@ -100,7 +100,7 @@ module.exports = {
         try {
             const { authUser, user } = req;
             console.log(user._id);
-            console.log(req.user);
+            console.log(authUser);
 
             if (user._id.toString() === authUser._id.toString()) {
                 return next();
