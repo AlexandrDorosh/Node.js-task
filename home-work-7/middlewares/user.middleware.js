@@ -3,38 +3,33 @@ const { ErrorHandler } = require('../errors');
 
 const { messages, statusCodes } = require('../config');
 
-const { NOT_FOUND } = statusCodes;
-const { USER_NOT_FOUND, EMAIL_EXISTS } = messages;
+const { NOT_FOUND, FORBIDDEN, EXISTS } = statusCodes;
+const { USER_NOT_FOUND, FORBIDDEN_MESS, USER_EXISTS } = messages;
 const { userValidator } = require('../validators');
-const { FORBIDDEN } = require('../config/statusCodes');
-const { FORBIDDEN_MESS } = require('../config/messages');
 
 const { createUserValidator, updateUser } = userValidator;
 
 module.exports = {
-    isUserPresent: async (req, res, next) => {
+    isUserNotPresent: (req, res, next) => {
         try {
-            const { user_id } = req.params;
-            const user = await User.findById(user_id);
+            const { user } = req;
 
             if (!user) {
                 throw new ErrorHandler(NOT_FOUND, USER_NOT_FOUND);
             }
 
-            req.user = user;
             next();
         } catch (e) {
             next(e);
         }
     },
 
-    checkUniqueEmail: async (req, res, next) => {
+    isUserPresent: (req, res, next) => {
         try {
-            const { email } = req.body;
-            const userByEmail = await User.findOne({ email });
+            const { user } = req;
 
-            if (userByEmail) {
-                throw new ErrorHandler(NOT_FOUND, EMAIL_EXISTS);
+            if (user) {
+                throw new ErrorHandler(EXISTS, USER_EXISTS);
             }
 
             next();
@@ -94,12 +89,24 @@ module.exports = {
 
             const user = await User.findOne({ [dbField]: value });
 
-            if (!user) {
-                throw new ErrorHandler(NOT_FOUND, USER_NOT_FOUND);
-            }
-
             req.user = user;
             next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    ifUserAccess: (req, res, next) => {
+        try {
+            const { authUser, user } = req;
+            console.log(user._id);
+            console.log(req.user);
+
+            if (user._id.toString() === authUser._id.toString()) {
+                return next();
+            }
+
+            throw ErrorHandler(FORBIDDEN, FORBIDDEN_MESS);
         } catch (e) {
             next(e);
         }

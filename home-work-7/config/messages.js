@@ -4,8 +4,12 @@ module.exports = {
     UPDATED_MESS: 'was updated',
     NOT_FOUND_MESS: 'Not Found',
     USER_NOT_FOUND: 'User not found',
+    UNAUTHORIZATED_MESS: 'Unauthorized',
+    NO_TOKEN: 'No token',
+    INVALID_TOKEN: 'Invalid token',
     CAR_NOT_FOUND: 'Car not found',
     EMAIL_EXISTS: 'Email is already exists',
+    USER_EXISTS: 'Email is already exists',
     EMAIL_OR_PASS_IS_WRONG: 'email or password is wrong',
     FORBIDDEN_MESS: 'Forbidden'
 };

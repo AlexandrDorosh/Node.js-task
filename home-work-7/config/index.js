@@ -3,5 +3,6 @@ module.exports = {
     statusCodes: require('./statusCodes'),
     userRoles: require('./user-roles.enum'),
     variables: require('./variables'),
-    constants: require('./constants')
+    constants: require('./constants'),
+    dataBaseTablesEnum: require('./database-tables.enum')
 };

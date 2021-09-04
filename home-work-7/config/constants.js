@@ -7,5 +7,6 @@ module.exports = {
     CAR_ID: 'car_id',
     PARAMS: 'params',
     _ID: '_id',
-    EMAIL: 'email'
+    EMAIL: 'email',
+    AUTHORIZATION: 'Authorization'
 };

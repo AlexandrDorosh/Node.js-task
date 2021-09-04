@@ -4,7 +4,9 @@ module.exports = {
     ACCEPTED: 202,
     DELETED: 204,
     BAD_REQUEST: 400,
+    UNAUTHORIZATED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
+    EXISTS: 409,
     INTERNAL_SERVER_ERROR: 500
 };
