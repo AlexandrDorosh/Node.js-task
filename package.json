@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon home-work-7/app.js",
-    "start": "pm2 kill && pm2 start home-work-7/app.js && pm2 monit"
+    "dev": "nodemon home-work-8/app.js",
+    "start": "pm2 kill && pm2 start home-work-8/app.js && pm2 monit"
   },
   "keywords": [],
   "author": "",
