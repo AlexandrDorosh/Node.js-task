@@ -1,5 +1,5 @@
 const { userService } = require('../services');
-const { statusCodes, messages } = require('../config');
+const { statusCodes, messages, emailActionEnum } = require('../config');
 const { User } = require('../dataBase');
 
 const {
@@ -12,7 +12,7 @@ const {
     getAllUsers, deleteUser, updateUser
 } = userService;
 
-const { passwordService } = require('../services');
+const { passwordService, emailService } = require('../services');
 const { userUtil } = require('../utils');
 
 const { userNormalizator } = userUtil;
@@ -27,6 +27,12 @@ module.exports = {
             const createdUser = await User.create({ ...req.body, password: hashedPassword });
 
             const userToReturn = userNormalizator(createdUser);
+
+            await emailService.sendMail(
+                'dovgaloleksandr388@gmail.com',
+                emailActionEnum.CREATE,
+                { userName: req.user.name }
+            );
 
             res.status(CREATED).json(userToReturn);
         } catch (e) {
@@ -46,9 +52,16 @@ module.exports = {
         }
     },
 
-    getSingleUser: (req, res, next) => {
+    getSingleUser: async (req, res, next) => {
         try {
             const userToReturn = userNormalizator(req.user);
+
+            await emailService.sendMail(
+                'dovgaloleksandr388@gmail.com',
+                emailActionEnum.WELCOME,
+                { userName: req.user.name }
+            );
+
             res.status(SUCCESS).json(userToReturn);
         } catch (e) {
             next(e);
