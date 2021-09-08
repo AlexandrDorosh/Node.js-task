@@ -8,5 +8,7 @@ module.exports = {
     PARAMS: 'params',
     _ID: '_id',
     EMAIL: 'email',
-    AUTHORIZATION: 'Authorization'
+    AUTHORIZATION: 'Authorization',
+    REFRESH: 'refresh',
+    USER: 'user'
 };

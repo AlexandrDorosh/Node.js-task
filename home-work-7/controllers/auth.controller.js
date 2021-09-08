@@ -32,7 +32,7 @@ module.exports = {
 
             await OAuth.deleteOne({ access_token });
 
-            res.json(statusCodes.DELETED, 'OK!');
+            res.sendStatus(statusCodes.DELETED);
         } catch (e) {
             next(e);
         }

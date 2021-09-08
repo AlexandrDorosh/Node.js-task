@@ -99,8 +99,6 @@ module.exports = {
     ifUserAccess: (req, res, next) => {
         try {
             const { authUser, user } = req;
-            console.log(user._id);
-            console.log(authUser);
 
             if (user._id.toString() === authUser._id.toString()) {
                 return next();

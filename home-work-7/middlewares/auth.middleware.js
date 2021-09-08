@@ -1,14 +1,17 @@
 const { ErrorHandler } = require('../errors');
 
-const { messages, statusCodes } = require('../config');
+const { messages, statusCodes, constants } = require('../config');
 
-const { NOT_FOUND, UNAUTHORIZATED, AUTHORIZATION } = statusCodes;
-const { EMAIL_OR_PASS_IS_WRONG, NO_TOKEN, INVALID_TOKEN } = messages;
+const { NOT_FOUND, UNAUTHORIZATED } = statusCodes;
+const {
+    EMAIL_OR_PASS_IS_WRONG, NO_TOKEN, INVALID_TOKEN, AUTHORIZATION
+} = messages;
 
 const { authValidator } = require('../validators');
 const { User, OAuth } = require('../dataBase');
 const { jwtService } = require('../services');
-const { USER } = require('../config/user-roles.enum');
+
+const { REFRESH, USER } = constants;
 
 const { verifyToken } = jwtService;
 
@@ -76,9 +79,9 @@ module.exports = {
                 throw new ErrorHandler(UNAUTHORIZATED, NO_TOKEN);
             }
 
-            await verifyToken(refresh_token, 'refresh');
+            await verifyToken(refresh_token, REFRESH);
 
-            const tokenFromDB = await OAuth.findOne({ refresh_token }).populate('user');
+            const tokenFromDB = await OAuth.findOne({ refresh_token }).populate(USER);
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(UNAUTHORIZATED, INVALID_TOKEN);
