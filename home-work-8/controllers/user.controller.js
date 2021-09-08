@@ -14,13 +14,14 @@ const {
 
 const { passwordService, emailService } = require('../services');
 const { userUtil } = require('../utils');
+const { userRoles } = require('../config');
 
 const { userNormalizator } = userUtil;
 
 module.exports = {
     createUser: async (req, res, next) => {
         try {
-            const { password } = req.body;
+            const { password, name, email } = req.body;
 
             const hashedPassword = await passwordService.hash(password);
 
@@ -29,9 +30,9 @@ module.exports = {
             const userToReturn = userNormalizator(createdUser);
 
             await emailService.sendMail(
-                'dovgaloleksandr388@gmail.com',
-                emailActionEnum.CREATE,
-                { userName: req.user.name }
+                email,
+                emailActionEnum.WELCOME,
+                { userName: name }
             );
 
             res.status(CREATED).json(userToReturn);
@@ -55,11 +56,12 @@ module.exports = {
     getSingleUser: async (req, res, next) => {
         try {
             const userToReturn = userNormalizator(req.user);
+            const { name, email } = req.body;
 
             await emailService.sendMail(
-                'dovgaloleksandr388@gmail.com',
+                email,
                 emailActionEnum.WELCOME,
-                { userName: req.user.name }
+                { userName: name }
             );
 
             res.status(SUCCESS).json(userToReturn);
@@ -71,7 +73,23 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
+            const { name, email, role } = req.body;
             await deleteUser(user_id);
+
+            if (role === userRoles.ADMIN) {
+                await emailService.sendMail(
+                    email,
+                    emailActionEnum.DELETE_ADMIN,
+                    { userName: name }
+                );
+            } else {
+                await emailService.sendMail(
+                    email,
+                    emailActionEnum.DELETE,
+                    { userName: name }
+                );
+            }
+
             res.status(DELETED).json(DELETED_MESS);
         } catch (e) {
             next(e);
@@ -81,7 +99,15 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
+            const { name, email } = req.body;
             await updateUser(user_id, req.body);
+
+            await emailService.sendMail(
+                email,
+                emailActionEnum.UPDATE,
+                { userName: name }
+            );
+
             res.status(ACCEPTED).json(UPDATED_MESS);
         } catch (e) {
             next(e);

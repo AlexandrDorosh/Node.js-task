@@ -1,7 +1,7 @@
-const { passwordService, jwtService } = require('../services');
+const { passwordService, jwtService, emailService } = require('../services');
 const { userNormalizator } = require('../utils/user.util');
 const { OAuth } = require('../dataBase');
-const { constants } = require('../config');
+const { constants, emailActionEnum } = require('../config');
 const { statusCodes } = require('../config');
 
 const { AUTHORIZATION } = constants;
@@ -10,12 +10,19 @@ module.exports = {
     authUser: async (req, res, next) => {
         try {
             const { user, body } = req;
+            const { name, email } = body;
 
             await passwordService.compare(body.password, user.password);
 
             const tokenPair = jwtService.generateTokenPair();
 
             await OAuth.create({ ...tokenPair, user: user._id });
+
+            await emailService.sendMail(
+                email,
+                emailActionEnum.WELCOME,
+                { userName: name }
+            );
 
             res.json({
                 ...tokenPair,
