@@ -1,19 +1,12 @@
 const { ErrorHandler } = require('../errors');
-
 const { messages, statusCodes, constants } = require('../config');
-
-const { NOT_FOUND, UNAUTHORIZATED } = statusCodes;
-const {
-    EMAIL_OR_PASS_IS_WRONG, NO_TOKEN, INVALID_TOKEN
-} = messages;
-
 const { authValidator } = require('../validators');
 const { User, OAuth } = require('../dataBase');
-const { jwtService } = require('../services');
+const { jwtService: { verifyToken } } = require('../services');
 
 const { REFRESH, USER } = constants;
-
-const { verifyToken } = jwtService;
+const { EMAIL_OR_PASS_IS_WRONG, NO_TOKEN, INVALID_TOKEN } = messages;
+const { NOT_FOUND, UNAUTHORIZATED } = statusCodes;
 
 module.exports = {
     getAuthByDinamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {

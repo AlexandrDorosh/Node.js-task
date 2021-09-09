@@ -20,7 +20,7 @@ module.exports = {
 
             await emailService.sendMail(
                 email,
-                emailActionEnum.WELCOME,
+                emailActionEnum.AUTH,
                 { userName: name }
             );
 

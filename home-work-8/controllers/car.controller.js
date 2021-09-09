@@ -1,25 +1,13 @@
-const { carService } = require('../services');
-const { statusCodes, messages } = require('../config');
-
-const {
-    CREATED, SUCCESS, ACCEPTED, DELETED
-} = statusCodes;
-
-const { DELETED_MESS, UPDATED_MESS } = messages;
-
-const {
-    getAllCars, createCar, updateCar, deleteCar
-} = carService;
-
-const { carUtil } = require('../utils');
-
-const { carNormalizator } = carUtil;
+const { carService: { getAllCars, createCar, updateCar, deleteCar } } = require('../services');
+const { statusCodes: { CREATED, DELETED }, messages: { UPDATED_MESS } } = require('../config');
+const { carUtil: { carNormalizator } } = require('../utils');
 
 module.exports = {
     createCar: async (req, res, next) => {
         try {
             const createdCar = await createCar(req.body);
             const carToReturn = carNormalizator(createdCar);
+
             res.status(CREATED).json(carToReturn);
         } catch (e) {
             next(e);
@@ -30,7 +18,8 @@ module.exports = {
         try {
             const cars = await getAllCars();
             const carToReturn = cars.map((car) => carNormalizator(car));
-            res.status(SUCCESS).json(carToReturn);
+
+            res.json(carToReturn);
         } catch (e) {
             next(e);
         }
@@ -39,7 +28,7 @@ module.exports = {
     getSingleCar: (req, res, next) => {
         try {
             const carToReturn = carNormalizator(req.car);
-            res.status(SUCCESS).json(carToReturn);
+            res.json(carToReturn);
         } catch (e) {
             next(e);
         }
@@ -49,7 +38,8 @@ module.exports = {
         try {
             const { car_id } = req.params;
             await deleteCar(car_id);
-            res.status(DELETED).json(DELETED_MESS);
+
+            res.sendStatus(DELETED);
         } catch (e) {
             next(e);
         }
@@ -59,7 +49,7 @@ module.exports = {
         try {
             const { car_id } = req.params;
             await updateCar(car_id, req.body);
-            res.status(ACCEPTED).json(UPDATED_MESS);
+            res.status(CREATED).json(UPDATED_MESS);
         } catch (e) {
             next(e);
         }
