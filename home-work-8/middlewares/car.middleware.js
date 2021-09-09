@@ -1,18 +1,10 @@
 const { Car } = require('../dataBase');
 const { ErrorHandler } = require('../errors');
-
-const { messages, statusCodes } = require('../config');
-const { carValidator } = require('../validators');
-const { FORBIDDEN } = require('../config/statusCodes');
+const { messages: { CAR_NOT_FOUND }, statusCodes: { NOT_FOUND, FORBIDDEN } } = require('../config');
+const { carValidator: { createCarValidator, updateCar } } = require('../validators');
 const { FORBIDDEN_MESS } = require('../config/messages');
 
-const { createCarValidator, updateCar } = carValidator;
-
-const { NOT_FOUND } = statusCodes;
-const { CAR_NOT_FOUND } = messages;
-
 module.exports = {
-
     validateCarBodyCreate: (req, res, next) => {
         try {
             const { error } = createCarValidator.validate(req.body);

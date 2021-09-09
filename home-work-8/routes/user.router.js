@@ -25,7 +25,6 @@ router.get('/:user_id',
     userController.getSingleUser);
 
 router.delete('/:user_id',
-    validateUserBody,
     authMiddleware.validateAccessToken,
     getUserByDinamicParam(USER_ID, PARAMS, _ID),
     isUserNotPresent,
@@ -34,9 +33,9 @@ router.delete('/:user_id',
 
 router.put('/:user_id',
     validateUserBodyUpdate,
-    getUserByDinamicParam(EMAIL),
-    isUserNotPresent,
+    authMiddleware.validateAccessToken,
     getUserByDinamicParam(USER_ID, PARAMS, _ID),
+    isUserNotPresent,
     ifUserAccess,
     userController.updateUser);
 
