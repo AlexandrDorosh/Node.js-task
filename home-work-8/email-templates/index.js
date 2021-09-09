@@ -5,9 +5,13 @@ module.exports = {
         templateName: 'welcome',
         subject: 'WELCOME !!!'
     },
-    [emailActionEnum.CREATE]: {
-        templateName: 'create',
-        subject: 'User was created'
+    [emailActionEnum.UPDATE]: {
+        templateName: 'update',
+        subject: 'User was updated'
+    },
+    [emailActionEnum.AUTH]: {
+        templateName: 'auth',
+        subject: 'User was auth'
     },
     [emailActionEnum.USER_BLOCKED_ADMIN]: {
         templateName: 'accountBlockedAdmin',

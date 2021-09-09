@@ -73,19 +73,19 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            const { name, email, role } = req.body;
+            const { name, email } = req.body;
             await deleteUser(user_id);
 
-            if (role === userRoles.ADMIN) {
+            if (req.user.role === userRoles.USER) {
                 await emailService.sendMail(
-                    email,
-                    emailActionEnum.DELETE_ADMIN,
+                    'dovgaloleksandr388@gmail.com',
+                    emailActionEnum.USER_BLOCKED_SOFT,
                     { userName: name }
                 );
             } else {
                 await emailService.sendMail(
-                    email,
-                    emailActionEnum.DELETE,
+                    'dovgaloleksandr388@gmail.com',
+                    emailActionEnum.USER_BLOCKED_ADMIN,
                     { userName: name }
                 );
             }
@@ -100,6 +100,7 @@ module.exports = {
         try {
             const { user_id } = req.params;
             const { name, email } = req.body;
+            console.log(req.params);
             await updateUser(user_id, req.body);
 
             await emailService.sendMail(

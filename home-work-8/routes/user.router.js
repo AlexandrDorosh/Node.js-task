@@ -4,6 +4,7 @@ const { userMiddleware, authMiddleware } = require('../middlewares');
 const {
     USER_ID, PARAMS, _ID, EMAIL
 } = require('../config/constants');
+const { ADMIN } = require('../config/user-roles.enum');
 
 const {
     isUserNotPresent,
@@ -24,10 +25,11 @@ router.get('/:user_id',
     userController.getSingleUser);
 
 router.delete('/:user_id',
+    validateUserBody,
     authMiddleware.validateAccessToken,
     getUserByDinamicParam(USER_ID, PARAMS, _ID),
     isUserNotPresent,
-    checkUserRoleMiddleware(['admin']),
+    checkUserRoleMiddleware([ADMIN]),
     userController.deleteUser);
 
 router.put('/:user_id',

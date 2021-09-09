@@ -1,5 +1,5 @@
-const { Car } = require('../dataBase');
+const { User } = require('../dataBase');
 
 module.exports = {
-    findUser: (email) => Car.findOne(email),
+    findUser: (filter) => User.findOne(filter),
 };

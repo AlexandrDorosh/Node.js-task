@@ -4,7 +4,7 @@ const { messages, statusCodes, constants } = require('../config');
 
 const { NOT_FOUND, UNAUTHORIZATED } = statusCodes;
 const {
-    EMAIL_OR_PASS_IS_WRONG, NO_TOKEN, INVALID_TOKEN, AUTHORIZATION
+    EMAIL_OR_PASS_IS_WRONG, NO_TOKEN, INVALID_TOKEN
 } = messages;
 
 const { authValidator } = require('../validators');
@@ -49,7 +49,7 @@ module.exports = {
 
     validateAccessToken: async (req, res, next) => {
         try {
-            const access_token = req.get(AUTHORIZATION);
+            const access_token = req.get(constants.AUTHORIZATION);
 
             if (!access_token) {
                 throw new ErrorHandler(UNAUTHORIZATED, NO_TOKEN);
@@ -73,7 +73,7 @@ module.exports = {
 
     validateRefreshToken: async (req, res, next) => {
         try {
-            const refresh_token = req.get(AUTHORIZATION);
+            const refresh_token = req.get(constants.AUTHORIZATION);
 
             if (!refresh_token) {
                 throw new ErrorHandler(UNAUTHORIZATED, NO_TOKEN);
