@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const { dataBaseTablesEnum } = require('../config');
+const { dataBaseTablesEnum, constants } = require('../config');
 
 const { OAuth, USER } = dataBaseTablesEnum;
 
@@ -18,6 +18,10 @@ const OAuthSchema = new Schema({
         required: true,
         ref: USER
     }
-}, { timestamps: true });
+}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
+
+OAuthSchema.pre('findOne', function() {
+    this.populate(constants.USER);
+});
 
 module.exports = model(OAuth, OAuthSchema);

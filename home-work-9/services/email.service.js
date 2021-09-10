@@ -1,12 +1,10 @@
 const EmailTemplates = require('email-templates');
 const nodemailer = require('nodemailer');
 const path = require('path');
-
-const { variables } = require('../config');
 const allTemplates = require('../email-templates');
+
+const { variables: { FRONTEND_URL, NO_REPLY_EMAIL, NO_REPLY_EMAIL_PASSWORD }, messages, statusCodes } = require('../config');
 const { ErrorHandler } = require('../errors');
-const { messages } = require('../config');
-const { statusCodes } = require('../config');
 
 const templateParser = new EmailTemplates({
     views: {
@@ -17,8 +15,8 @@ const templateParser = new EmailTemplates({
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: variables.NO_REPLY_EMAIL,
-        pass: variables.NO_REPLY_EMAIL_PASSWORD
+        user: NO_REPLY_EMAIL,
+        pass: NO_REPLY_EMAIL_PASSWORD
     }
 });
 
@@ -31,7 +29,7 @@ const sendMail = async (userMail, emailAction, context = {}) => {
 
     const { templateName, subject } = templateInfo;
 
-    context.frontendURL = 'https://developer.mozilla.org/ru/docs/Web/HTTP/Status';
+    context.frontendURL = FRONTEND_URL;
 
     const html = await templateParser.render(templateName, context);
 

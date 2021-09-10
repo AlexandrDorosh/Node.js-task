@@ -5,9 +5,10 @@ const { messages, statusCodes } = require('../config');
 
 const { NOT_FOUND, FORBIDDEN, EXISTS } = statusCodes;
 const { USER_NOT_FOUND, FORBIDDEN_MESS, USER_EXISTS } = messages;
-const { userValidator } = require('../validators');
-
-const { createUserValidator, updateUser } = userValidator;
+const {
+    userValidator: { createUserValidator, updateUser },
+    authValidator: { passwordValidator }
+} = require('../validators');
 
 module.exports = {
     isUserNotPresent: (req, res, next) => {
@@ -40,7 +41,25 @@ module.exports = {
 
     validateUserBody: (req, res, next) => {
         try {
-            const { error } = createUserValidator.validate(req.body);
+            const { error, value } = createUserValidator.validate(req.body);
+
+            req.body = value;
+
+            if (error) {
+                throw new ErrorHandler(NOT_FOUND, error.details[0].message);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateNewPassword: (req, res, next) => {
+        try {
+            const { error, value } = passwordValidator.validate(req.body);
+
+            req.body = value;
 
             if (error) {
                 throw new ErrorHandler(NOT_FOUND, error.details[0].message);

@@ -1,5 +1,6 @@
 module.exports = {
+    ActionTokens: require('./actionTokens'),
     Car: require('./Car'),
-    User: require('./User'),
-    OAuth: require('./OAuth')
+    OAuth: require('./OAuth'),
+    User: require('./User')
 };

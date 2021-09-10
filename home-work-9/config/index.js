@@ -1,4 +1,5 @@
 module.exports = {
+    actionTokensEnum: require('./action-tokens.enum'),
     messages: require('./messages'),
     statusCodes: require('./statusCodes'),
     userRoles: require('./user-roles.enum'),

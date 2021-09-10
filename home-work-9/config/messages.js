@@ -12,5 +12,6 @@ module.exports = {
     USER_EXISTS: 'Email is already exists',
     EMAIL_OR_PASS_IS_WRONG: 'email or password is wrong',
     FORBIDDEN_MESS: 'Forbidden',
-    WRONG_TEMP_NAME_MESS: 'wrong template name'
+    WRONG_TEMP_NAME_MESS: 'wrong template name',
+    WRONG_TOKEN_TYPE: 'Wrong token type'
 };

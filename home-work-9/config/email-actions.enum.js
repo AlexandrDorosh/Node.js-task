@@ -3,5 +3,6 @@ module.exports = {
     UPDATE: 'update',
     USER_BLOCKED_ADMIN: 'accountBlockedAdmin',
     USER_BLOCKED_SOFT: 'accountBlockedSoft',
-    AUTH: 'auth'
+    AUTH: 'auth',
+    FORGOT_PASSWORD: 'forgot_password'
 };

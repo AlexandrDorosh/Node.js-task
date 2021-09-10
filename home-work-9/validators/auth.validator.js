@@ -4,9 +4,18 @@ const { constants } = require('../config');
 
 const { PASSWORD_REGEXP, EMAIL_REGEXP } = constants;
 
+const passwordSchema = Joi.string().regex(PASSWORD_REGEXP).trim().required();
+
 const createUserAuthValidator = Joi.object({
     email: Joi.string().regex(EMAIL_REGEXP).trim().required(),
-    password: Joi.string().regex(PASSWORD_REGEXP).trim().required(),
+    password: passwordSchema
 });
 
-module.exports = createUserAuthValidator;
+const passwordValidator = Joi.object({
+    password: passwordSchema
+});
+
+module.exports = {
+    createUserAuthValidator,
+    passwordValidator
+};

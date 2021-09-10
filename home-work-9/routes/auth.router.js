@@ -1,18 +1,29 @@
 const router = require('express').Router();
 
-const { authMiddleware, userMiddleware } = require('../middlewares');
+const {
+    authMiddleware: {
+        getAuthByDinamicParam,
+        validateUserBody,
+        validateAccessToken,
+        validateRefreshToken,
+        validateActionToken
+    }, userMiddleware: { isUserNotPresent, validateNewPassword }
+} = require('../middlewares');
 
 const {
-    getAuthByDinamicParam, validateUserBody, validateAccessToken, validateRefreshToken
-} = authMiddleware;
+    authUser, logoutUser, refresh, sendEmailForgotPassword, setNewForgotPassword
+} = require('../controllers/auth.controller');
 
-const { authUser, logoutUser, refresh } = require('../controllers/auth.controller');
-const { EMAIL } = require('../config/constants');
+const { actionTokensEnum: { FORGOT_PASS }, constants: { EMAIL } } = require('../config');
 
-router.post('/', validateUserBody, getAuthByDinamicParam(EMAIL), userMiddleware.isUserNotPresent, authUser);
+router.post('/', validateUserBody, getAuthByDinamicParam(EMAIL), isUserNotPresent, authUser);
 
 router.post('/logout', validateAccessToken, logoutUser);
 
 router.post('/refresh', validateRefreshToken, refresh);
+
+router.post('/password/forgot/send', getAuthByDinamicParam(EMAIL), isUserNotPresent, sendEmailForgotPassword);
+
+router.post('/password/forgot/set', validateNewPassword, validateActionToken(FORGOT_PASS), setNewForgotPassword);
 
 module.exports = router;

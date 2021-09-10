@@ -3,13 +3,13 @@ const util = require('util');
 
 const verifyPromise = util.promisify(jwt.verify);
 
-const { variables, statusCodes, messages } = require('../config');
+const {
+    actionTokensEnum: { FORGOT_PASS },
+    variables: { ACCESS_SECRET_KEY, FORGOT_PASSWORD_SECRET_KEY, REFRESH_SECRET_KEY },
+    statusCodes: { INTERNAL_SERVER_ERROR, UNAUTHORIZATED },
+    messages: { INVALID_TOKEN, WRONG_TOKEN_TYPE }
+} = require('../config');
 const { ErrorHandler } = require('../errors');
-
-const { UNAUTHORIZATED } = statusCodes;
-const { INVALID_TOKEN } = messages;
-
-const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = variables;
 
 module.exports = {
     generateTokenPair: () => {
@@ -30,5 +30,34 @@ module.exports = {
         } catch (e) {
             throw new ErrorHandler(UNAUTHORIZATED, INVALID_TOKEN);
         }
+    },
+
+    generateActionToken: (actionType) => {
+        const secretWord = _getSecretWordForActionToken(actionType);
+
+        return jwt.sign({}, secretWord, { expiresIn: '7d' });
+    },
+
+    verifyActionToken: (token, actionType) => {
+        const secretWord = _getSecretWordForActionToken(actionType);
+
+        return jwt.verify(token, secretWord);
     }
 };
+
+function _getSecretWordForActionToken(actionType) {
+    let secretWord = '';
+
+    switch (actionType) {
+        case FORGOT_PASS:
+            secretWord = FORGOT_PASSWORD_SECRET_KEY;
+            break;
+        case 'x2':
+            secretWord = 'dsadsa';
+            break;
+        default:
+            throw new ErrorHandler(INTERNAL_SERVER_ERROR, WRONG_TOKEN_TYPE);
+    }
+
+    return secretWord;
+}
