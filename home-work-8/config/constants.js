@@ -10,5 +10,6 @@ module.exports = {
     EMAIL: 'email',
     AUTHORIZATION: 'Authorization',
     REFRESH: 'refresh',
-    USER: 'user'
+    USER: 'user',
+    CAR: 'car'
 };

@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const { userRoles } = require('../config');
+const { constants: { CAR } } = require('../config');
 
 const userRolesEnum = userRoles;
 
@@ -36,4 +37,4 @@ const carSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = model('car', carSchema);
+module.exports = model(CAR, carSchema);

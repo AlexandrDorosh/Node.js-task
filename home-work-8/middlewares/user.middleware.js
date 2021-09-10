@@ -68,16 +68,21 @@ module.exports = {
 
     checkUserRoleMiddleware: (rolesArr = []) => (req, res, next) => {
         try {
-            const { role } = req.user;
+            const { authUser: { role, _id }, params: { user_id } } = req;
+
+            if (user_id === _id.toString()) {
+                return next();
+            }
 
             if (!role.length) {
                 return next();
             }
 
-            if (!rolesArr.includes(role)) {
-                throw new ErrorHandler(FORBIDDEN, FORBIDDEN_MESS);
+            if (rolesArr.includes(role)) {
+                return next();
             }
-            next();
+
+            throw new ErrorHandler(FORBIDDEN, FORBIDDEN_MESS);
         } catch (e) {
             next(e);
         }
@@ -86,7 +91,6 @@ module.exports = {
     getUserByDinamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
         try {
             const value = req[searchIn][paramName];
-            console.log(req.params);
 
             const user = await User.findOne({ [dbField]: value });
 
@@ -100,8 +104,6 @@ module.exports = {
     ifUserAccess: (req, res, next) => {
         try {
             const { authUser, user } = req;
-            console.log(user);
-            console.log(authUser);
 
             if (user._id.toString() !== authUser._id.toString()) {
                 throw ErrorHandler(FORBIDDEN, FORBIDDEN_MESS);

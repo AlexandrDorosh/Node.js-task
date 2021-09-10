@@ -1,22 +1,9 @@
-const { userService } = require('../services');
-const { statusCodes, messages, emailActionEnum } = require('../config');
+const { passwordService, emailService, userService: { getAllUsers, deleteUser, updateUser } } = require('../services');
+const { statusCodes: { CREATED, DELETED }, messages: { UPDATED_MESS }, emailActionEnum } = require('../config');
 const { User } = require('../dataBase');
+const { userUtil: { userNormalizator } } = require('../utils');
 
-const {
-    CREATED, SUCCESS, ACCEPTED, DELETED
-} = statusCodes;
-
-const { DELETED_MESS, UPDATED_MESS } = messages;
-
-const {
-    getAllUsers, deleteUser, updateUser
-} = userService;
-
-const { passwordService, emailService } = require('../services');
-const { userUtil } = require('../utils');
 const { userRoles } = require('../config');
-
-const { userNormalizator } = userUtil;
 
 module.exports = {
     createUser: async (req, res, next) => {
@@ -47,24 +34,17 @@ module.exports = {
 
             const userToReturn = users.map((user) => userNormalizator(user));
 
-            res.status(SUCCESS).json(userToReturn);
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }
     },
 
-    getSingleUser: async (req, res, next) => {
+    getSingleUser: (req, res, next) => {
         try {
             const userToReturn = userNormalizator(req.user);
-            const { name, email } = req.body;
 
-            await emailService.sendMail(
-                email,
-                emailActionEnum.WELCOME,
-                { userName: name }
-            );
-
-            res.status(SUCCESS).json(userToReturn);
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }
@@ -73,24 +53,24 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            const { name, email } = req.body;
+            const { name, email } = req.user;
             await deleteUser(user_id);
 
             if (req.user.role === userRoles.USER) {
                 await emailService.sendMail(
-                    'dovgaloleksandr388@gmail.com',
+                    email,
                     emailActionEnum.USER_BLOCKED_SOFT,
                     { userName: name }
                 );
             } else {
                 await emailService.sendMail(
-                    'dovgaloleksandr388@gmail.com',
+                    email,
                     emailActionEnum.USER_BLOCKED_ADMIN,
                     { userName: name }
                 );
             }
 
-            res.status(DELETED).json(DELETED_MESS);
+            res.sendStatus(DELETED);
         } catch (e) {
             next(e);
         }
@@ -98,10 +78,9 @@ module.exports = {
 
     updateUser: async (req, res, next) => {
         try {
-            const { user_id } = req.params;
-            const { name, email } = req.body;
-            console.log(req.params);
-            await updateUser(user_id, req.body);
+            const { params: { user_id }, body, user: { email, name } } = req;
+
+            await updateUser(user_id, body);
 
             await emailService.sendMail(
                 email,
@@ -109,7 +88,7 @@ module.exports = {
                 { userName: name }
             );
 
-            res.status(ACCEPTED).json(UPDATED_MESS);
+            res.status(CREATED).json(UPDATED_MESS);
         } catch (e) {
             next(e);
         }
