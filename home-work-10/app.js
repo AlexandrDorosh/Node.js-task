@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const expressFileUpload = require('express-fileupload');
 
 require('dotenv').config();
 
@@ -12,6 +13,7 @@ mongoose.connect(URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(expressFileUpload());
 
 const { NOT_FOUND, INTERNAL_SERVER_ERROR } = statusCodes;
 

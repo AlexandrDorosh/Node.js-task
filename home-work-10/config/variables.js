@@ -9,5 +9,10 @@ module.exports = {
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'test@example.com',
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || '12345',
 
-    FRONTEND_URL: process.env.FRONTEND_URL || 'https://developer.mozilla.org/ru/docs/Web/HTTP/Status'
+    FRONTEND_URL: process.env.FRONTEND_URL || 'https://developer.mozilla.org/ru/docs/Web/HTTP/Status',
+
+    AWS_S3_NAME: process.env.AWS_S3_NAME || '',
+    AWS_S3_REGION: process.env.AWS_S3_REGION || '',
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY || '',
+    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY || '',
 };

@@ -13,5 +13,6 @@ module.exports = {
     EMAIL_OR_PASS_IS_WRONG: 'email or password is wrong',
     FORBIDDEN_MESS: 'Forbidden',
     WRONG_TEMP_NAME_MESS: 'wrong template name',
-    WRONG_TOKEN_TYPE: 'Wrong token type'
+    WRONG_TOKEN_TYPE: 'Wrong token type',
+    WRONG_FILE_FORMAT: 'Wrong file format'
 };

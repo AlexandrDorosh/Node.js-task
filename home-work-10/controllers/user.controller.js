@@ -1,5 +1,12 @@
-const { passwordService, emailService, userService: { getAllUsers, deleteUser, updateUser } } = require('../services');
-const { statusCodes: { CREATED, DELETED }, messages: { UPDATED_MESS }, emailActionEnum } = require('../config');
+const {
+    passwordService, emailService, userService: { getAllUsers, deleteUser, updateUser }, s3Service
+} = require('../services');
+const {
+    statusCodes: { CREATED, DELETED },
+    messages: { UPDATED_MESS },
+    emailActionEnum,
+    constants: { USERS }
+} = require('../config');
 const { User } = require('../dataBase');
 const { userUtil: { userNormalizator } } = require('../utils');
 
@@ -12,7 +19,14 @@ module.exports = {
 
             const hashedPassword = await passwordService.hash(password);
 
-            const createdUser = await User.create({ ...req.body, password: hashedPassword });
+            let createdUser = await User.create({ ...req.body, password: hashedPassword });
+
+            if (req.files && req.files.avatar) {
+                const s3response = await s3Service.uploadFile(req.files.avatar, USERS, createdUser._id);
+                createdUser = await User.findByIdAndUpdate(createdUser._id,
+                    { avatar: s3response.Location },
+                    { new: true });
+            }
 
             const userToReturn = userNormalizator(createdUser);
 
@@ -79,6 +93,16 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const { params: { user_id }, body, user: { email, name } } = req;
+
+            if (req.files && req.files.avatar) {
+                const s3response = await s3Service.uploadFile(req.files.avatar, USERS, user_id);
+                await User.findByIdAndUpdate(user_id,
+                    {
+                        ...req.body,
+                        avatar: s3response.Location
+                    },
+                    { new: true });
+            }
 
             await updateUser(user_id, body);
 

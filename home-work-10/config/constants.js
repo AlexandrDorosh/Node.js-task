@@ -11,5 +11,13 @@ module.exports = {
     AUTHORIZATION: 'Authorization',
     REFRESH: 'refresh',
     USER: 'user',
-    CAR: 'car'
+    USERS: 'users',
+    CAR: 'car',
+    PHOTO_MAX_SIZE: 5 * 1024 * 1024,
+    MIMETYPES: {
+        PHOTO: [
+            'image/jpeg',
+            'image/png'
+        ]
+    }
 };
