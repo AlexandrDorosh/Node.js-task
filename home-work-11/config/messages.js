@@ -14,5 +14,6 @@ module.exports = {
     FORBIDDEN_MESS: 'Forbidden',
     WRONG_TEMP_NAME_MESS: 'wrong template name',
     WRONG_TOKEN_TYPE: 'Wrong token type',
-    WRONG_FILE_FORMAT: 'Wrong file format'
+    WRONG_FILE_FORMAT: 'Wrong file format',
+    CORS_NOT_ALLOWED: 'CORS not allowed'
 };
